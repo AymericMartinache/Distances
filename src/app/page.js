@@ -56,14 +56,14 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="min-h-screen flex flex-col items-center justify-evently p-4">
             <img
                 src="/img/map.jpg"
                 alt="Map"
-                className="w-32 h-32 rounded-full mb-4"
+                className="rounded-full mb-4 w-36 h-36 md:w-48 md:h-48 mt-16 md:mt-4 shadow-md border"
             />
 
-            <h1 className="text-4xl font-bold text-center mt-4 mb-8">
+            <h1 className="text-lg md:text-4xl font-bold text-center mt-4 mb-8">
                 Calculateur de distance
             </h1>
             <form
@@ -79,7 +79,7 @@ export default function Home() {
                             setOrigin(e.target.value.toUpperCase())
                         }
                         required
-                        className="mt-2 p-3 border rounded w-full text-transform: uppercase;"
+                        className="mt-2 p-3 border border-gray-400 rounded-full w-full text-transform: uppercase;"
                     />
                 </label>
                 <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
@@ -91,12 +91,12 @@ export default function Home() {
                             setDestination(e.target.value.toUpperCase())
                         }
                         required
-                        className="mt-2 p-3 border rounded w-full text-transform: uppercase;"
+                        className="mt-2 p-3 border border-gray-400 rounded-full w-full text-transform: uppercase;"
                     />
                 </label>
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full shadow-sm shadow-black mt-4 w-full"
+                    className="text-white font-bold py-2 px-4 rounded-full shadow-sm shadow-black mt-4 w-full bg-cyan-600"
                 >
                     Calculer
                 </button>
@@ -106,7 +106,7 @@ export default function Home() {
 
             {/* Tableau des résultats */}
             {results.length > 0 && (
-                <div className="max-w-md w-full mt-8 overflow-y-auto max-h-52 md:max-h-96">
+                <div className="max-w-md w-full mt-8 overflow-y-auto max-h-40 md:max-h-80">
                     <table className="w-full text-center border-collapse text-xs md:text-sm">
                         <thead>
                             <tr className="bg-white">
