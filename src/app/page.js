@@ -66,7 +66,7 @@ export default function Home() {
                         value={origin}
                         onChange={(e) => setOrigin(e.target.value)}
                         required
-                        className="mt-2 p-3 border rounded w-full"
+                        className="mt-2 p-3 border rounded-full w-full"
                     />
                 </label>
                 <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
@@ -76,7 +76,7 @@ export default function Home() {
                         value={destination}
                         onChange={(e) => setDestination(e.target.value)}
                         required
-                        className="mt-2 p-3 border rounded w-full"
+                        className="mt-2 p-3 border rounded-full w-full"
                     />
                 </label>
                 <button
