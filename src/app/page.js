@@ -45,7 +45,7 @@ export default function Home() {
                 "Erreur lors de la récupération de la distance:",
                 error
             );
-            setError("Erreur ou ville non trouvée");
+            setError("Erreur ou ville non trouvée. Veuillez réessayer");
         }
     };
 
@@ -56,19 +56,19 @@ export default function Home() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-evently p-4">
+        <div className="min-h-screen flex flex-col items-center justify-evently p-1">
             <img
                 src="/img/map.jpg"
                 alt="Map"
-                className="rounded-full mb-4 w-36 h-36 md:w-48 md:h-48 mt-16 md:mt-4 shadow-md border"
+                className="rounded-full mb-4 w-36 h-36 md:w-48 md:h-48 mt-8 md:mt-4 shadow-md border"
             />
 
-            <h1 className="text-lg md:text-4xl font-bold text-center mt-4 mb-8">
+            <h1 className="text-xl md:text-4xl font-bold text-center mt-4 mb-8 font-orbitron">
                 Calculateur de distance
             </h1>
             <form
                 onSubmit={handleSubmit}
-                className="bg-white p-4 rounded-xl shadow-md shadow-gray-400 w-full max-w-md"
+                className="bg-white p-4 rounded-xl shadow-md shadow-gray-400 w-[90%] md:w-[90%] max-w-lg"
             >
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                     Ville de départ :
@@ -79,7 +79,7 @@ export default function Home() {
                             setOrigin(e.target.value.toUpperCase())
                         }
                         required
-                        className="mt-2 p-3 border border-gray-400 rounded-full w-full text-transform: uppercase;"
+                        className="mt-2 p-2  border border-gray-400 rounded-full w-full text-transform: uppercase; text-sm"
                     />
                 </label>
                 <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
@@ -91,7 +91,7 @@ export default function Home() {
                             setDestination(e.target.value.toUpperCase())
                         }
                         required
-                        className="mt-2 p-3 border border-gray-400 rounded-full w-full text-transform: uppercase;"
+                        className="mt-2 p-2  border border-gray-400 rounded-full w-full text-transform: uppercase; text-sm"
                     />
                 </label>
                 <button
@@ -100,9 +100,12 @@ export default function Home() {
                 >
                     Calculer
                 </button>
+                {error && (
+                    <p className="mt-8 text-red-400 bg-red-100 rounded-md text-sm w-full p-1 text-center">
+                        {error}
+                    </p>
+                )}
             </form>
-
-            {error && <p className="mt-8 text-lg text-red-500">{error}</p>}
 
             {/* Tableau des résultats */}
             {results.length > 0 && (

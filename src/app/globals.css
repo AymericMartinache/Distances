@@ -9,8 +9,8 @@
 }
 
 body {
-    font-family: sans-serif;
     width: 100vw;
     height: 100vh;
     background-color: rgb(193, 209, 219);
+    font-family: Arial, Helvetica, sans-serif;
 }
