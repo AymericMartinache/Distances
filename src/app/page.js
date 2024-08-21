@@ -1,18 +1,23 @@
 "use client";
 
+//* --- REACT ---
 import { useState } from "react";
+
+//* --- AXIOS ---
 import axios from "axios";
 
 export default function Home() {
+    //* STATES
     const [origin, setOrigin] = useState("");
     const [destination, setDestination] = useState("");
-    const [distance, setDistance] = useState(null);
-    const [fuelCost, setFuelCost] = useState(null);
+    const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
 
+    //* CONST
     const fuelConsumption = 8.5; // Consommation en litres/100 km pour un Mercedes GLE 350
     const fuelPrice = 1.8; // Prix du litre de carburant en euros
 
+    //* GET DISTANCE
     const getDistance = async () => {
         try {
             const response = await axios.get(
@@ -20,13 +25,21 @@ export default function Home() {
                     origin
                 )}&destination=${encodeURIComponent(destination)}`
             );
-            const distanceInKm = response.data.distance;
 
-            setDistance(distanceInKm);
+            const distanceInKm = response.data.distance;
 
             // Calcul du coût en carburant
             const cost = (distanceInKm / 100) * fuelConsumption * fuelPrice;
-            setFuelCost(cost.toFixed(2)); // Coût en euros, arrondi à deux décimales
+
+            // Ajouter le nouveau résultat au tableau des résultats
+            const newResult = {
+                origin,
+                destination,
+                distance: distanceInKm,
+                fuelCost: cost.toFixed(2),
+            };
+
+            setResults([...results, newResult]); // Ajouter au début du tableau
         } catch (error) {
             console.error(
                 "Erreur lors de la récupération de la distance:",
@@ -38,8 +51,6 @@ export default function Home() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setDistance(null);
-        setFuelCost(null);
         setError(null);
         getDistance();
     };
@@ -49,24 +60,26 @@ export default function Home() {
             <img
                 src="/img/map.jpg"
                 alt="Map"
-                className="rounded-full mb-2 w-48"
+                className="w-32 h-32 rounded-full mb-4"
             />
 
-            <h1 className="text-3xl font-bold text-center mt-4 mb-8">
+            <h1 className="text-4xl font-bold text-center mt-4 mb-8">
                 Calculateur de distance
             </h1>
             <form
                 onSubmit={handleSubmit}
-                className="bg-white p-8 rounded-xl shadow-md shadow-gray-400 w-full max-w-md"
+                className="bg-white p-4 rounded-xl shadow-md shadow-gray-400 w-full max-w-md"
             >
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                     Ville de départ :
                     <input
                         type="text"
                         value={origin}
-                        onChange={(e) => setOrigin(e.target.value)}
+                        onChange={(e) =>
+                            setOrigin(e.target.value.toUpperCase())
+                        }
                         required
-                        className="mt-2 p-3 border rounded-full w-full"
+                        className="mt-2 p-3 border rounded w-full text-transform: uppercase;"
                     />
                 </label>
                 <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
@@ -74,9 +87,11 @@ export default function Home() {
                     <input
                         type="text"
                         value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
+                        onChange={(e) =>
+                            setDestination(e.target.value.toUpperCase())
+                        }
                         required
-                        className="mt-2 p-3 border rounded-full w-full"
+                        className="mt-2 p-3 border rounded w-full text-transform: uppercase;"
                     />
                 </label>
                 <button
@@ -86,15 +101,50 @@ export default function Home() {
                     Calculer
                 </button>
             </form>
-            {distance && (
-                <div className="mt-8 text-xl text-center">
-                    <p className="mb-4">
-                        Distance de {origin} à {destination}: {distance} km
-                    </p>
-                    <p>Coût en carburant : {fuelCost} €</p>
+
+            {error && <p className="mt-8 text-lg text-red-500">{error}</p>}
+
+            {/* Tableau des résultats */}
+            {results.length > 0 && (
+                <div className="max-w-md w-full mt-8 overflow-y-auto max-h-52 md:max-h-96">
+                    <table className="w-full text-center border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr className="bg-white">
+                                <th className="border-b-2 p-2">
+                                    Ville de départ
+                                </th>
+                                <th className="border-b-2 p-2">
+                                    Ville d'arrivée
+                                </th>
+                                <th className="border-b-2 p-2">
+                                    Distance (km)
+                                </th>
+                                <th className="border-b-2 p-2">
+                                    Coût en carburant (€)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {results.map((result, index) => (
+                                <tr key={index}>
+                                    <td className="border-b p-2">
+                                        {result.origin}
+                                    </td>
+                                    <td className="border-b p-2">
+                                        {result.destination}
+                                    </td>
+                                    <td className="border-b p-2">
+                                        {result.distance} km
+                                    </td>
+                                    <td className="border-b p-2">
+                                        {result.fuelCost} €
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
-            {error && <p className="mt-8 text-lg text-red-500">{error}</p>}
         </div>
     );
 }

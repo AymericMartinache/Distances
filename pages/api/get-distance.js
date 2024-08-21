@@ -1,9 +1,10 @@
+//* --- AXIOS ---
 import axios from "axios";
 
 export default async function handler(req, res) {
-    const { destination } = req.query;
+    // on rércupèrre l'origine et la destination qui viennent de l'input
+    const { origin, destination } = req.query;
 
-    const origin = "Nantes, France"; // Point de départ fixe
     const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
     try {
@@ -12,10 +13,15 @@ export default async function handler(req, res) {
                 origin
             )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`
         );
+
+        // on rrécupère la distance en metre
         const distanceInMeters =
             response.data.rows[0].elements[0].distance.value;
+
+        // on la convertit en km
         const distanceInKm = (distanceInMeters / 1000).toFixed(2);
 
+        // si pas d'erreur, on définit la distance
         res.status(200).json({ distance: distanceInKm });
     } catch (error) {
         console.error("Erreur lors de la récupération de la distance:", error);
