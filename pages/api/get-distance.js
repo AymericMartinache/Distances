@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     const { destination } = req.query;
 
     const origin = "Nantes, France"; // Point de départ fixe
-    const apiKey = "AIzaSyAGeb-T40uH4OfN5M52M1vjI9hoEAgKTzs";
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 
     try {
         const response = await axios.get(
