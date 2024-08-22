@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-    title: "Calcul distance",
+    title: "Calculateur distance",
     description: "Calcul de distance en km",
 };
 
